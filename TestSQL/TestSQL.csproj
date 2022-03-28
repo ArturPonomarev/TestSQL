@@ -59,6 +59,12 @@
       <DependentUpon>AutomobileAddForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Code\Program.cs" />
+    <Compile Include="Forms\DeleteDataForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\DeleteDataForm.Designer.cs">
+      <DependentUpon>DeleteDataForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Forms\TestForm.cs">
       <SubType>Form</SubType>
@@ -68,6 +74,9 @@
     </Compile>
     <EmbeddedResource Include="Forms\AutomobileAddForm.resx">
       <DependentUpon>AutomobileAddForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\DeleteDataForm.resx">
+      <DependentUpon>DeleteDataForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

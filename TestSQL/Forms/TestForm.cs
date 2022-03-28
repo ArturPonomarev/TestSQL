@@ -52,8 +52,10 @@ namespace TestSQL
         //Последний цвет кнопки (используется при снятии выделении с кнопки)
         private System.Drawing.Color lastColor = System.Drawing.Color.FromArgb(0, 0, 0);
 
-        //Форма добавления для автомобилей
+        //Форма добавления записей для автомобилей
         AutomobileAddForm autoAddForm;
+        //Форма удаления записи
+        TestSQL.Forms.DeleteDataForm deleteDataForm;
 
         public void InitForm()
         {
@@ -210,6 +212,36 @@ namespace TestSQL
 
             this.Enabled = false;
             autoAddForm.Show();
+        }
+
+        private void AddDataButton_MouseEnter(object sender, EventArgs e)
+        {
+            lastColor = AddDataButton.BackColor;
+            AddDataButton.BackColor = Data.COLOR_BUTTON_SELECT;
+        }
+
+        private void AddDataButton_MouseLeave(object sender, EventArgs e)
+        {
+            AddDataButton.BackColor = lastColor;
+        }
+
+        private void DeleteDataButton_MouseEnter(object sender, EventArgs e)
+        {
+            lastColor = DeleteDataButton.BackColor;
+            DeleteDataButton.BackColor = Data.COLOR_BUTTON_SELECT;
+        }
+
+        private void DeleteDataButton_MouseLeave(object sender, EventArgs e)
+        {
+            DeleteDataButton.BackColor = lastColor;
+        }
+
+        private void DeleteDataButton_Click(object sender, EventArgs e)
+        {
+            deleteDataForm = new TestSQL.Forms.DeleteDataForm(this);
+
+            this.Enabled = false;
+            deleteDataForm.Show();
         }
     }
 }

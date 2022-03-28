@@ -14,6 +14,10 @@ namespace TestSQL
     {
         private MainForm mainForm;
 
+        //Последний цвет кнопки (используется при снятии выделении с кнопки)
+        private System.Drawing.Color lastColor = System.Drawing.Color.FromArgb(0, 0, 0);
+
+
         private void InitForm()
         {
             MarkaBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
@@ -22,6 +26,8 @@ namespace TestSQL
 
             KyzovBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             StateBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+
+            AddButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
         }
 
         public AutomobileAddForm(MainForm mainForm)
@@ -62,6 +68,19 @@ namespace TestSQL
             {
                 MessageBox.Show("Не удается установить соединение с базой данных");
             }
+
+            this.Close();
+        }
+
+        private void AddButton_MouseEnter(object sender, EventArgs e)
+        {
+            lastColor = AddButton.BackColor;
+            AddButton.BackColor = Data.COLOR_BUTTON_ACTIVE;
+        }
+
+        private void AddButton_MouseLeave(object sender, EventArgs e)
+        {
+            AddButton.BackColor = lastColor;
         }
     }
 }

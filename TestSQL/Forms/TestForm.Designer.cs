@@ -129,6 +129,8 @@ namespace TestSQL
             this.AddDataButton.Text = "Добавить запись";
             this.AddDataButton.UseVisualStyleBackColor = false;
             this.AddDataButton.Click += new System.EventHandler(this.AddDataButton_Click);
+            this.AddDataButton.MouseEnter += new System.EventHandler(this.AddDataButton_MouseEnter);
+            this.AddDataButton.MouseLeave += new System.EventHandler(this.AddDataButton_MouseLeave);
             // 
             // DeleteDataButton
             // 
@@ -142,6 +144,9 @@ namespace TestSQL
             this.DeleteDataButton.TabIndex = 7;
             this.DeleteDataButton.Text = "Удалить запись";
             this.DeleteDataButton.UseVisualStyleBackColor = false;
+            this.DeleteDataButton.Click += new System.EventHandler(this.DeleteDataButton_Click);
+            this.DeleteDataButton.MouseEnter += new System.EventHandler(this.DeleteDataButton_MouseEnter);
+            this.DeleteDataButton.MouseLeave += new System.EventHandler(this.DeleteDataButton_MouseLeave);
             // 
             // SortLabel
             // 

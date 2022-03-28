@@ -150,6 +150,8 @@ namespace TestSQL
             this.AddButton.Text = "Добавить запись";
             this.AddButton.UseVisualStyleBackColor = true;
             this.AddButton.Click += new System.EventHandler(this.AddButton_Click);
+            this.AddButton.MouseEnter += new System.EventHandler(this.AddButton_MouseEnter);
+            this.AddButton.MouseLeave += new System.EventHandler(this.AddButton_MouseLeave);
             // 
             // MarkaBox
             // 
