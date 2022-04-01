@@ -13,22 +13,41 @@ using System.Windows.Forms;
 
 namespace TestSQL
 {
+    enum States
+    {
+        AUTOMOBILE_STATE,
+        ORDER_STATE,
+        CLIENT_STATE,
+    };
+
+
     public partial class MainForm : Form
     {
+        //-----ВСЕ СВЯЗАННОЕ С SQL-----//
         private DB dataBase = new DB();
 
         private MySqlDataAdapter sqlAdapter;
-
         
         private void GetList()
         {
             try
             {
-
                 dataBase.OpenConnection();
                 
-                sqlAdapter = new MySqlDataAdapter("SELECT * FROM `automobile`", dataBase.GetConnection());
+                switch (m_state)
+                {
+                    case States.AUTOMOBILE_STATE:
+                        sqlAdapter = new MySqlDataAdapter("SELECT automobile.*FROM automobile", dataBase.GetConnection());
+                        break;
+                    case States.ORDER_STATE:
+                        sqlAdapter = new MySqlDataAdapter("SELECT orders.id_order, orders.price, orders.state, orders.automobile_id_automobile AS auto_id, orders.Cleints_id_client AS client_id, orders.t_start, orders.t_end FROM orders", dataBase.GetConnection());
+                        break;
+                    case States.CLIENT_STATE:
+                        sqlAdapter = new MySqlDataAdapter("SELECT cleints.* FROM cleints", dataBase.GetConnection());
+                        break;
+                }
 
+                
                 DataTable dataTable = new DataTable();
                 sqlAdapter.Fill(dataTable);
                 MainDataGrid.DataSource = dataTable;
@@ -45,22 +64,42 @@ namespace TestSQL
         {
             return this.dataBase;
         }
+        //-----------------------L-----//
+
+        private States m_state;
+
+
+        
         //Способ сортировки
         private ISort m_sort = new AutomobileSort();
-        //-----------------
+        //-----------------f
 
         //Последний цвет кнопки (используется при снятии выделении с кнопки)
         private System.Drawing.Color lastColor = System.Drawing.Color.FromArgb(0, 0, 0);
 
         //Форма добавления записей для автомобилей
-        AutomobileAddForm autoAddForm;
+        Form AddForm;
+
         //Форма удаления записи
         TestSQL.Forms.DeleteDataForm deleteDataForm;
+
+
+        #region Инициализация
+        //-----ИНИЦИАЛИЗАЦИЯ ФОРМЫ-----//
+        public MainForm()
+        {
+            InitializeComponent();
+
+            this.InitForm();
+
+            this.GetList();
+        }
 
         public void InitForm()
         {
             SortButton1.Checked = true;
 
+            m_state = States.AUTOMOBILE_STATE;
 
             m_sort = new AutomobileSort();
             m_sort.Sort();
@@ -74,7 +113,7 @@ namespace TestSQL
             lastColor = AutomobileMainButton.BackColor;
 
             //Границы кнопок
-                //основные кнопки
+            //основные кнопки
             AutomobileMainButton.FlatAppearance.BorderSize = 3;
             AutomobileMainButton.FlatAppearance.BorderColor = Color.Black;
             OrderMainButton.FlatAppearance.BorderSize = 3;
@@ -82,33 +121,22 @@ namespace TestSQL
             ClientMainButton.FlatAppearance.BorderSize = 3;
             ClientMainButton.FlatAppearance.BorderColor = Color.Black;
 
-                //добавить удалить кнопки
+            //добавить удалить кнопки
             AddDataButton.FlatAppearance.BorderSize = 2;
             AddDataButton.FlatAppearance.BorderColor = Color.Black;
             DeleteDataButton.FlatAppearance.BorderSize = 2;
             DeleteDataButton.FlatAppearance.BorderColor = Color.Black;
         }
-
-        public MainForm()
-        {
-            InitializeComponent();
-            
-            this.InitForm();
-
-            this.GetList();
-        }
-
-        private void SortLabel_Click(object sender, EventArgs e)
-        {
-
-        }
+        //-----------------------------// 
+        #endregion
 
 
-        //-----КЛИК ПО ВЕРХНИМ КНОПКАМ-----//
+        //-----ВЕРХНИЕ КНОПКИ-----//
         //"Автомобили"
         private void AutomobileMainButton_Click(object sender, EventArgs e)
         {
             m_sort = new AutomobileSort();
+            m_state = States.AUTOMOBILE_STATE;
 
             MainLabel.Text = Data.AUTOMOBILE_LABEL_TEXT;
             SortButton1.Text = Data.AUTOMOBILE_FIRSTCHECKBOX_TEXT;
@@ -121,12 +149,13 @@ namespace TestSQL
 
             lastColor = AutomobileMainButton.BackColor;
 
-            //TODO обновить данные в сетке
+            this.GetList();
         }
         //"Заказы"
         private void OrderMainButton_Click(object sender, EventArgs e)
         {
             m_sort = new OrderSort();
+            m_state = States.ORDER_STATE;
 
             MainLabel.Text = Data.ORDER_LABEL_TEXT;
             SortButton1.Text = Data.ORDER_FIRSTCHECKBOX_TEXT;
@@ -138,12 +167,13 @@ namespace TestSQL
             ClientMainButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
 
             lastColor = OrderMainButton.BackColor;
-            //TODO обновить данные в сетке
+            this.GetList();
         }
         //"Клиенты"
         private void ClientMainButton_Click(object sender, EventArgs e)
         {
             m_sort = new ClientSort();
+            m_state = States.CLIENT_STATE;
 
             MainLabel.Text = Data.CLIENT_LABEL_TEXT;
             SortButton1.Text = Data.CLIENT_FIRSTCHECKBOX_TEXT;
@@ -155,9 +185,12 @@ namespace TestSQL
             ClientMainButton.BackColor = Data.COLOR_BUTTON_ACTIVE;
 
             lastColor = ClientMainButton.BackColor;
-            //TODO обновить данные в сетке
+            this.GetList();
         }
+        //------------------------//
 
+
+        //-----ЧЕКБОКСЫ СОРТИРОВКИ-----//
         private void SortButton1_CheckedChanged(object sender, EventArgs e)
         {
             m_sort.Sort();
@@ -172,68 +205,29 @@ namespace TestSQL
         {
             m_sort.Sort();
         }
+        //-----------------------------//
 
-        private void AutomobileMainButton_MouseEnter(object sender, EventArgs e)
-        {
-            lastColor = AutomobileMainButton.BackColor;
-            AutomobileMainButton.BackColor = Data.COLOR_BUTTON_SELECT;
-        }
 
-        private void AutomobileMainButton_MouseLeave(object sender, EventArgs e)
-        {
-            AutomobileMainButton.BackColor = lastColor;
-        }
-
-        private void OrderMainButton_MouseEnter(object sender, EventArgs e)
-        {
-            lastColor = OrderMainButton.BackColor;
-            OrderMainButton.BackColor = Data.COLOR_BUTTON_SELECT;
-        }
-
-        private void OrderMainButton_MouseLeave(object sender, EventArgs e)
-        {
-            OrderMainButton.BackColor = lastColor;
-        }
-
-        private void ClientMainButton_MouseEnter(object sender, EventArgs e)
-        {
-            lastColor = ClientMainButton.BackColor;
-            ClientMainButton.BackColor = Data.COLOR_BUTTON_SELECT;
-        }
-
-        private void ClientMainButton_MouseLeave(object sender, EventArgs e)
-        {
-            ClientMainButton.BackColor = lastColor;
-        }
-
+        //-----КНОПКИ ДОБАВЛЕНИЯ И УДАЛЕНИЯ ЗАПИСИ-----//
         private void AddDataButton_Click(object sender, EventArgs e)
         {
-            autoAddForm = new AutomobileAddForm(this);
+            switch (m_state)
+            {
+                case States.AUTOMOBILE_STATE:
+                    AddForm = new AutomobileAddForm(this);
+                    break;
+                case States.ORDER_STATE:
+                    AddForm = new TestSQL.Forms.OrdersAddForm(this);
+                    break;
+                case States.CLIENT_STATE:
+                    AddForm = new TestSQL.Forms.ClientsAddForm(this);
+                    break;
+            }
+            
+
 
             this.Enabled = false;
-            autoAddForm.Show();
-        }
-
-        private void AddDataButton_MouseEnter(object sender, EventArgs e)
-        {
-            lastColor = AddDataButton.BackColor;
-            AddDataButton.BackColor = Data.COLOR_BUTTON_SELECT;
-        }
-
-        private void AddDataButton_MouseLeave(object sender, EventArgs e)
-        {
-            AddDataButton.BackColor = lastColor;
-        }
-
-        private void DeleteDataButton_MouseEnter(object sender, EventArgs e)
-        {
-            lastColor = DeleteDataButton.BackColor;
-            DeleteDataButton.BackColor = Data.COLOR_BUTTON_SELECT;
-        }
-
-        private void DeleteDataButton_MouseLeave(object sender, EventArgs e)
-        {
-            DeleteDataButton.BackColor = lastColor;
+            AddForm.Show();
         }
 
         private void DeleteDataButton_Click(object sender, EventArgs e)
@@ -242,6 +236,75 @@ namespace TestSQL
 
             this.Enabled = false;
             deleteDataForm.Show();
+        }
+        //---------------------------------------------//
+
+
+        #region ИЗМЕНЕНИЕ ЦВЕТА КНОПОК ПРИ НАВЕДЕНИИ
+        //-----ИЗМЕНЕНИЕ ЦВЕТА КНОПОК ПРИ НАВЕДЕНИИ-----//
+        //Автомобили
+        private void AutomobileMainButton_MouseEnter(object sender, EventArgs e)
+        {
+            lastColor = AutomobileMainButton.BackColor;
+            AutomobileMainButton.BackColor = Data.COLOR_BUTTON_SELECT;
+        }
+        private void AutomobileMainButton_MouseLeave(object sender, EventArgs e)
+        {
+            AutomobileMainButton.BackColor = lastColor;
+        }
+
+        //Клиенты
+        private void ClientMainButton_MouseEnter(object sender, EventArgs e)
+        {
+            lastColor = ClientMainButton.BackColor;
+            ClientMainButton.BackColor = Data.COLOR_BUTTON_SELECT;
+        }
+        private void ClientMainButton_MouseLeave(object sender, EventArgs e)
+        {
+            ClientMainButton.BackColor = lastColor;
+        }
+
+        //Заказы
+        private void OrderMainButton_MouseEnter(object sender, EventArgs e)
+        {
+            lastColor = OrderMainButton.BackColor;
+            OrderMainButton.BackColor = Data.COLOR_BUTTON_SELECT;
+        }
+        private void OrderMainButton_MouseLeave(object sender, EventArgs e)
+        {
+            OrderMainButton.BackColor = lastColor;
+        }
+
+        //Добавить запись
+        private void AddDataButton_MouseEnter(object sender, EventArgs e)
+        {
+            lastColor = AddDataButton.BackColor;
+            AddDataButton.BackColor = Data.COLOR_BUTTON_SELECT;
+        }
+        private void AddDataButton_MouseLeave(object sender, EventArgs e)
+        {
+            AddDataButton.BackColor = lastColor;
+        }
+
+        //Удалить запись
+        private void DeleteDataButton_MouseEnter(object sender, EventArgs e)
+        {
+            lastColor = DeleteDataButton.BackColor;
+            DeleteDataButton.BackColor = Data.COLOR_BUTTON_SELECT;
+        }
+        private void DeleteDataButton_MouseLeave(object sender, EventArgs e)
+        {
+            DeleteDataButton.BackColor = lastColor;
+        }
+        //----------------------------------------------// 
+        #endregion
+
+        private void MainForm_EnabledChanged(object sender, EventArgs e)
+        {
+            if (this.Enabled.Equals(true))
+            {
+                this.GetList();
+            }
         }
     }
 }

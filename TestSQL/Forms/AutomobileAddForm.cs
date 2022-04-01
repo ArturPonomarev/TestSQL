@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace TestSQL
 {
@@ -59,14 +60,29 @@ namespace TestSQL
         {
             try
             {
-                mainForm.GetDB().OpenConnection();
+                MySqlCommand cmd = new MySqlCommand(@"INSERT INTO 
+                        automobile (marka, model, capacity, color, number, type, state) 
+                        VALUES 
+                        (@marka, @model, @capacity, @color, @number, @type, @state)", mainForm.GetDB().GetConnection());
 
                 
-                mainForm.GetDB().CloseConnection();
+                cmd.Parameters.AddWithValue("@marka", MarkaBox.SelectedItem.ToString());
+                cmd.Parameters.AddWithValue("@model", ModelBox.SelectedItem.ToString());
+                cmd.Parameters.AddWithValue("@number", NumberBox.Text);
+                cmd.Parameters.AddWithValue("@type", KyzovBox.SelectedItem.ToString());
+                cmd.Parameters.AddWithValue("@state", StateBox.SelectedItem.ToString());
+                cmd.Parameters.AddWithValue("@capacity", Convert.ToInt32(CapacityBox.Text));
+                cmd.Parameters.AddWithValue("@color", ColorBox.Text);
+
+                cmd.Connection.Open();
+                cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+
+                MessageBox.Show("Успех");
             }
-            catch
+            catch (Exception E)
             {
-                MessageBox.Show("Не удается установить соединение с базой данных");
+                MessageBox.Show(E.ToString());
             }
 
             this.Close();

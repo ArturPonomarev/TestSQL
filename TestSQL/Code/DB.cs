@@ -10,9 +10,9 @@ namespace TestSQL
 {
     public class DB
     {
-        
-        private MySqlConnection connection = new MySqlConnection("server=localhost;port=3306;username=root;password=root;database=untaxi");
 
+        private MySqlConnection connection = new MySqlConnection("server=localhost;port=3306;username=root;password=root;database=mydb");
+        
 
         public void OpenConnection()
         {

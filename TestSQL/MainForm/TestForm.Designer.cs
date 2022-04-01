@@ -160,7 +160,6 @@ namespace TestSQL
             this.SortLabel.TabIndex = 11;
             this.SortLabel.Text = "Сортировать";
             this.SortLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.SortLabel.Click += new System.EventHandler(this.SortLabel_Click);
             // 
             // pictureBox1
             // 
@@ -235,6 +234,7 @@ namespace TestSQL
             this.Controls.Add(this.pictureBox1);
             this.Name = "MainForm";
             this.Text = "NoManTax";
+            this.EnabledChanged += new System.EventHandler(this.MainForm_EnabledChanged);
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGrid)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
