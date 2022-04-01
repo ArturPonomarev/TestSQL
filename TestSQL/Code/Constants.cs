@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 
 namespace TestSQL
 {
+    public enum States
+    {
+        AUTOMOBILE_STATE,
+        ORDER_STATE,
+        CLIENT_STATE,
+    };
+
     static class Data
     {
         //Текст

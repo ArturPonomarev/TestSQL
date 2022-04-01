@@ -96,7 +96,7 @@ namespace TestSQL.Forms
             this.Controls.Add(this.AddButton);
             this.Controls.Add(this.label1);
             this.Name = "ClientsAddForm";
-            this.Text = "ClientsAddForm";
+            this.Text = "Добавить клиента";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ClientsAddForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();

@@ -13,14 +13,6 @@ using System.Windows.Forms;
 
 namespace TestSQL
 {
-    enum States
-    {
-        AUTOMOBILE_STATE,
-        ORDER_STATE,
-        CLIENT_STATE,
-    };
-
-
     public partial class MainForm : Form
     {
         //-----ВСЕ СВЯЗАННОЕ С SQL-----//
@@ -34,7 +26,7 @@ namespace TestSQL
             {
                 dataBase.OpenConnection();
                 
-                switch (m_state)
+                switch (CurrentState)
                 {
                     case States.AUTOMOBILE_STATE:
                         sqlAdapter = new MySqlDataAdapter("SELECT automobile.*FROM automobile", dataBase.GetConnection());
@@ -47,7 +39,6 @@ namespace TestSQL
                         break;
                 }
 
-                
                 DataTable dataTable = new DataTable();
                 sqlAdapter.Fill(dataTable);
                 MainDataGrid.DataSource = dataTable;
@@ -66,10 +57,13 @@ namespace TestSQL
         }
         //-----------------------L-----//
 
-        private States m_state;
+        #region Состояния
+        public States CurrentState { set; get; }
+
+        #endregion
 
 
-        
+
         //Способ сортировки
         private ISort m_sort = new AutomobileSort();
         //-----------------f
@@ -99,7 +93,7 @@ namespace TestSQL
         {
             SortButton1.Checked = true;
 
-            m_state = States.AUTOMOBILE_STATE;
+            CurrentState = States.AUTOMOBILE_STATE;
 
             m_sort = new AutomobileSort();
             m_sort.Sort();
@@ -136,7 +130,7 @@ namespace TestSQL
         private void AutomobileMainButton_Click(object sender, EventArgs e)
         {
             m_sort = new AutomobileSort();
-            m_state = States.AUTOMOBILE_STATE;
+            CurrentState = States.AUTOMOBILE_STATE;
 
             MainLabel.Text = Data.AUTOMOBILE_LABEL_TEXT;
             SortButton1.Text = Data.AUTOMOBILE_FIRSTCHECKBOX_TEXT;
@@ -155,7 +149,7 @@ namespace TestSQL
         private void OrderMainButton_Click(object sender, EventArgs e)
         {
             m_sort = new OrderSort();
-            m_state = States.ORDER_STATE;
+            CurrentState = States.ORDER_STATE;
 
             MainLabel.Text = Data.ORDER_LABEL_TEXT;
             SortButton1.Text = Data.ORDER_FIRSTCHECKBOX_TEXT;
@@ -173,7 +167,7 @@ namespace TestSQL
         private void ClientMainButton_Click(object sender, EventArgs e)
         {
             m_sort = new ClientSort();
-            m_state = States.CLIENT_STATE;
+            CurrentState = States.CLIENT_STATE;
 
             MainLabel.Text = Data.CLIENT_LABEL_TEXT;
             SortButton1.Text = Data.CLIENT_FIRSTCHECKBOX_TEXT;
@@ -211,7 +205,7 @@ namespace TestSQL
         //-----КНОПКИ ДОБАВЛЕНИЯ И УДАЛЕНИЯ ЗАПИСИ-----//
         private void AddDataButton_Click(object sender, EventArgs e)
         {
-            switch (m_state)
+            switch (CurrentState)
             {
                 case States.AUTOMOBILE_STATE:
                     AddForm = new AutomobileAddForm(this);

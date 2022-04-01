@@ -7,12 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace TestSQL.Forms
 {
     public partial class DeleteDataForm : Form
     {
         private MainForm mainForm;
+        private string tableName;
 
         //Последний цвет кнопки (используется при снятии выделении с кнопки)
         private System.Drawing.Color lastColor = System.Drawing.Color.FromArgb(0, 0, 0);
@@ -28,6 +30,23 @@ namespace TestSQL.Forms
         
         public void InitForm()
         {
+            switch(mainForm.CurrentState)
+            {
+                case States.AUTOMOBILE_STATE:
+                    IDLabel.Text = "ID авто";
+                    tableName = "automobile";
+                    break;
+                case States.ORDER_STATE:
+                    IDLabel.Text = "ID заказа";
+                    tableName = "orders";
+                    break;
+                case States.CLIENT_STATE:
+                    IDLabel.Text = "ID клиента";
+                    tableName = "cleints";
+                    break;
+            }
+
+
             DeleteButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
         }
 
@@ -40,19 +59,27 @@ namespace TestSQL.Forms
         {
             try
             {
-                mainForm.GetDB().OpenConnection();
+                string expression;
 
+                //TODO сделать удаление записей в зависимости от состояния 
+                expression = string.Format(@"DELETE FROM " + tableName + " WHERE id = {0}",
+                                Convert.ToInt32(DeleteBox.Text));
 
-                mainForm.GetDB().CloseConnection();
+                MySqlCommand cmd = new MySqlCommand(expression,mainForm.GetDB().GetConnection());
+
+                cmd.Connection.Open();
+                cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
             }
-            catch
+            catch (Exception E)
             {
-                MessageBox.Show("Не удается установить соединение с базой данных");
+                MessageBox.Show(E.ToString());
             }
 
             this.Close();
         }
 
+        #region Изменение цвета кнопки
         private void DeleteButton_MouseEnter(object sender, EventArgs e)
         {
             lastColor = DeleteButton.BackColor;
@@ -63,5 +90,6 @@ namespace TestSQL.Forms
         {
             DeleteButton.BackColor = lastColor;
         }
+        #endregion
     }
 }

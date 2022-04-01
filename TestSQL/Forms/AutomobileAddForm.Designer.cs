@@ -226,7 +226,7 @@ namespace TestSQL
             this.Controls.Add(this.Number);
             this.Controls.Add(this.MarkaLabel);
             this.Name = "AutomobileAddForm";
-            this.Text = "Добавить запись";
+            this.Text = "Добавление автомобиля";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.AutomobileAddForm_FormClosed);
             this.ResumeLayout(false);
             this.PerformLayout();

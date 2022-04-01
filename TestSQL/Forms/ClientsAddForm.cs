@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MySql.Data.MySqlClient;
 
 namespace TestSQL.Forms
 {
@@ -19,6 +20,7 @@ namespace TestSQL.Forms
         public ClientsAddForm(TestSQL.MainForm mainForm)
         {
             m_mainForm = mainForm;
+            this.InitForm();
             InitializeComponent();
         }
         public void InitForm()
@@ -29,16 +31,22 @@ namespace TestSQL.Forms
         {
             try
             {
-                m_mainForm.GetDB().OpenConnection();
+                MySqlCommand cmd = new MySqlCommand(@"INSERT INTO 
+                        cleints (FIO, phone_number) 
+                        VALUES 
+                        (@fio, @number)", m_mainForm.GetDB().GetConnection());
 
 
-                m_mainForm.GetDB().CloseConnection();
+                cmd.Parameters.AddWithValue("@fio", FIOBox.Text);
+                cmd.Parameters.AddWithValue("@number", PhoneBox.Text);
 
-                MessageBox.Show("");
+                cmd.Connection.Open();
+                cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
             }
-            catch
+            catch (Exception E)
             {
-                MessageBox.Show("Не удается установить соединение с базой данных");
+                MessageBox.Show(E.ToString());
             }
 
             this.Close();

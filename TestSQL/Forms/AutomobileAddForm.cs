@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 
@@ -43,7 +36,6 @@ namespace TestSQL
             mainForm.Enabled = true;
         }
 
-
         private void MarkaBox_SelectionChangeCommitted_1(object sender, EventArgs e)
         {
             ModelBox.Items.Clear();
@@ -58,6 +50,12 @@ namespace TestSQL
 
         private void AddButton_Click(object sender, EventArgs e)
         {
+            int testInt;
+            if (!int.TryParse(CapacityBox.Text, out testInt))
+            {
+                MessageBox.Show("Поле 'Вместимость' должно быть числом");
+            }
+
             try
             {
                 MySqlCommand cmd = new MySqlCommand(@"INSERT INTO 
@@ -77,8 +75,6 @@ namespace TestSQL
                 cmd.Connection.Open();
                 cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
-
-                MessageBox.Show("Успех");
             }
             catch (Exception E)
             {
