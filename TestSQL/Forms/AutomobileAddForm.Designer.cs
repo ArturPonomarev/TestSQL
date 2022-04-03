@@ -195,11 +195,6 @@ namespace TestSQL
             // 
             this.StateBox.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Bold);
             this.StateBox.FormattingEnabled = true;
-            this.StateBox.Items.AddRange(new object[] {
-            "Ожидает заказа",
-            "На ремонте",
-            "Выполняет заказ",
-            "Не активна"});
             this.StateBox.Location = new System.Drawing.Point(201, 216);
             this.StateBox.Name = "StateBox";
             this.StateBox.Size = new System.Drawing.Size(139, 29);

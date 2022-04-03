@@ -6,6 +6,8 @@ namespace TestSQL
 {
     public partial class AutomobileAddForm : Form
     {
+               
+
         private MainForm mainForm;
 
         //Последний цвет кнопки (используется при снятии выделении с кнопки)
@@ -20,6 +22,8 @@ namespace TestSQL
 
             KyzovBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             StateBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+
+            StateBox.Items.AddRange(Data.AutomobileStates);
 
             AddButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
         }
@@ -54,6 +58,7 @@ namespace TestSQL
             if (!int.TryParse(CapacityBox.Text, out testInt))
             {
                 MessageBox.Show("Поле 'Вместимость' должно быть числом");
+                return;
             }
 
             try

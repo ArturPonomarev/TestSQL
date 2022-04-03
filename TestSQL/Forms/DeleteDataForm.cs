@@ -59,9 +59,8 @@ namespace TestSQL.Forms
         {
             try
             {
+                //TODO сделать изменение состояния автомобиля, если был удален заказ, который выполнял автомобиль
                 string expression;
-
-                //TODO сделать удаление записей в зависимости от состояния 
                 expression = string.Format(@"DELETE FROM " + tableName + " WHERE id = {0}",
                                 Convert.ToInt32(DeleteBox.Text));
 

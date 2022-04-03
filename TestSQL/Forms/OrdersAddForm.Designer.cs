@@ -47,7 +47,7 @@ namespace TestSQL.Forms
             // label1
             // 
             this.label1.Font = new System.Drawing.Font("Malgun Gothic", 16F, System.Drawing.FontStyle.Bold);
-            this.label1.Location = new System.Drawing.Point(24, 9);
+            this.label1.Location = new System.Drawing.Point(76, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(141, 32);
             this.label1.TabIndex = 0;
@@ -57,7 +57,7 @@ namespace TestSQL.Forms
             // PriceBox
             // 
             this.PriceBox.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Bold);
-            this.PriceBox.Location = new System.Drawing.Point(11, 44);
+            this.PriceBox.Location = new System.Drawing.Point(65, 44);
             this.PriceBox.Name = "PriceBox";
             this.PriceBox.Size = new System.Drawing.Size(164, 29);
             this.PriceBox.TabIndex = 2;
@@ -65,7 +65,7 @@ namespace TestSQL.Forms
             // label2
             // 
             this.label2.Font = new System.Drawing.Font("Malgun Gothic", 16F, System.Drawing.FontStyle.Bold);
-            this.label2.Location = new System.Drawing.Point(263, 9);
+            this.label2.Location = new System.Drawing.Point(296, 9);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(164, 32);
             this.label2.TabIndex = 4;
@@ -112,12 +112,7 @@ namespace TestSQL.Forms
             // 
             this.StateBox.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Bold);
             this.StateBox.FormattingEnabled = true;
-            this.StateBox.Items.AddRange(new object[] {
-            "Выполнен",
-            "Выполняется",
-            "Не выполнен",
-            "Отменен"});
-            this.StateBox.Location = new System.Drawing.Point(263, 44);
+            this.StateBox.Location = new System.Drawing.Point(296, 44);
             this.StateBox.Name = "StateBox";
             this.StateBox.Size = new System.Drawing.Size(164, 29);
             this.StateBox.TabIndex = 9;
@@ -125,7 +120,7 @@ namespace TestSQL.Forms
             // AddButton
             // 
             this.AddButton.Font = new System.Drawing.Font("Malgun Gothic", 24F, System.Drawing.FontStyle.Bold);
-            this.AddButton.Location = new System.Drawing.Point(47, 325);
+            this.AddButton.Location = new System.Drawing.Point(81, 325);
             this.AddButton.Name = "AddButton";
             this.AddButton.Size = new System.Drawing.Size(348, 64);
             this.AddButton.TabIndex = 10;
@@ -146,7 +141,7 @@ namespace TestSQL.Forms
             "Отменен"});
             this.ClientBox.Location = new System.Drawing.Point(296, 140);
             this.ClientBox.Name = "ClientBox";
-            this.ClientBox.Size = new System.Drawing.Size(131, 29);
+            this.ClientBox.Size = new System.Drawing.Size(211, 29);
             this.ClientBox.TabIndex = 11;
             // 
             // AutoBox
@@ -160,34 +155,34 @@ namespace TestSQL.Forms
             "Отменен"});
             this.AutoBox.Location = new System.Drawing.Point(296, 252);
             this.AutoBox.Name = "AutoBox";
-            this.AutoBox.Size = new System.Drawing.Size(131, 29);
+            this.AutoBox.Size = new System.Drawing.Size(211, 29);
             this.AutoBox.TabIndex = 12;
             // 
             // label5
             // 
             this.label5.Font = new System.Drawing.Font("Malgun Gothic", 16F, System.Drawing.FontStyle.Bold);
-            this.label5.Location = new System.Drawing.Point(291, 105);
+            this.label5.Location = new System.Drawing.Point(342, 105);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(136, 32);
             this.label5.TabIndex = 13;
-            this.label5.Text = "ID Клиента";
+            this.label5.Text = "Клиент";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label6
             // 
             this.label6.Font = new System.Drawing.Font("Malgun Gothic", 16F, System.Drawing.FontStyle.Bold);
-            this.label6.Location = new System.Drawing.Point(291, 217);
+            this.label6.Location = new System.Drawing.Point(333, 217);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(136, 32);
+            this.label6.Size = new System.Drawing.Size(154, 32);
             this.label6.TabIndex = 14;
-            this.label6.Text = "ID Авто";
+            this.label6.Text = "Автомобиль";
             this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // OrdersAddForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(440, 401);
+            this.ClientSize = new System.Drawing.Size(519, 401);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.AutoBox);

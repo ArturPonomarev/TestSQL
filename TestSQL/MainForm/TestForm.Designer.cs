@@ -41,6 +41,7 @@ namespace TestSQL
             this.SortButton1 = new System.Windows.Forms.RadioButton();
             this.SortButton2 = new System.Windows.Forms.RadioButton();
             this.SortButton3 = new System.Windows.Forms.RadioButton();
+            this.ChangeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -122,7 +123,7 @@ namespace TestSQL
             this.AddDataButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.AddDataButton.Font = new System.Drawing.Font("Malgun Gothic", 24F, System.Drawing.FontStyle.Bold);
             this.AddDataButton.ForeColor = System.Drawing.Color.Black;
-            this.AddDataButton.Location = new System.Drawing.Point(827, 755);
+            this.AddDataButton.Location = new System.Drawing.Point(827, 663);
             this.AddDataButton.Name = "AddDataButton";
             this.AddDataButton.Size = new System.Drawing.Size(400, 60);
             this.AddDataButton.TabIndex = 6;
@@ -154,7 +155,7 @@ namespace TestSQL
             this.SortLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SortLabel.Font = new System.Drawing.Font("Malgun Gothic", 24F, System.Drawing.FontStyle.Bold);
             this.SortLabel.ForeColor = System.Drawing.Color.White;
-            this.SortLabel.Location = new System.Drawing.Point(827, 311);
+            this.SortLabel.Location = new System.Drawing.Point(827, 279);
             this.SortLabel.Name = "SortLabel";
             this.SortLabel.Size = new System.Drawing.Size(400, 53);
             this.SortLabel.TabIndex = 11;
@@ -165,7 +166,7 @@ namespace TestSQL
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.PaleTurquoise;
             this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(827, 358);
+            this.pictureBox1.Location = new System.Drawing.Point(827, 326);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(400, 317);
             this.pictureBox1.TabIndex = 12;
@@ -176,7 +177,7 @@ namespace TestSQL
             this.SortButton1.AutoSize = true;
             this.SortButton1.BackColor = System.Drawing.Color.PaleTurquoise;
             this.SortButton1.Font = new System.Drawing.Font("Malgun Gothic", 24F, System.Drawing.FontStyle.Bold);
-            this.SortButton1.Location = new System.Drawing.Point(846, 389);
+            this.SortButton1.Location = new System.Drawing.Point(846, 346);
             this.SortButton1.Name = "SortButton1";
             this.SortButton1.Size = new System.Drawing.Size(72, 49);
             this.SortButton1.TabIndex = 13;
@@ -190,7 +191,7 @@ namespace TestSQL
             this.SortButton2.AutoSize = true;
             this.SortButton2.BackColor = System.Drawing.Color.PaleTurquoise;
             this.SortButton2.Font = new System.Drawing.Font("Malgun Gothic", 24F, System.Drawing.FontStyle.Bold);
-            this.SortButton2.Location = new System.Drawing.Point(846, 492);
+            this.SortButton2.Location = new System.Drawing.Point(846, 451);
             this.SortButton2.Name = "SortButton2";
             this.SortButton2.Size = new System.Drawing.Size(267, 49);
             this.SortButton2.TabIndex = 14;
@@ -204,7 +205,7 @@ namespace TestSQL
             this.SortButton3.AutoSize = true;
             this.SortButton3.BackColor = System.Drawing.Color.PaleTurquoise;
             this.SortButton3.Font = new System.Drawing.Font("Malgun Gothic", 24F, System.Drawing.FontStyle.Bold);
-            this.SortButton3.Location = new System.Drawing.Point(846, 605);
+            this.SortButton3.Location = new System.Drawing.Point(846, 561);
             this.SortButton3.Name = "SortButton3";
             this.SortButton3.Size = new System.Drawing.Size(205, 49);
             this.SortButton3.TabIndex = 15;
@@ -213,6 +214,21 @@ namespace TestSQL
             this.SortButton3.UseVisualStyleBackColor = false;
             this.SortButton3.CheckedChanged += new System.EventHandler(this.SortButton3_CheckedChanged);
             // 
+            // ChangeButton
+            // 
+            this.ChangeButton.BackColor = System.Drawing.SystemColors.InactiveCaption;
+            this.ChangeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ChangeButton.Font = new System.Drawing.Font("Malgun Gothic", 24F, System.Drawing.FontStyle.Bold);
+            this.ChangeButton.ForeColor = System.Drawing.Color.Black;
+            this.ChangeButton.Location = new System.Drawing.Point(827, 749);
+            this.ChangeButton.Name = "ChangeButton";
+            this.ChangeButton.Size = new System.Drawing.Size(400, 60);
+            this.ChangeButton.TabIndex = 16;
+            this.ChangeButton.Text = "Изменить запись";
+            this.ChangeButton.UseVisualStyleBackColor = false;
+            this.ChangeButton.MouseEnter += new System.EventHandler(this.ChangeButton_MouseEnter);
+            this.ChangeButton.MouseLeave += new System.EventHandler(this.ChangeButton_MouseLeave);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -220,6 +236,7 @@ namespace TestSQL
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1264, 921);
+            this.Controls.Add(this.ChangeButton);
             this.Controls.Add(this.SortButton3);
             this.Controls.Add(this.SortButton2);
             this.Controls.Add(this.SortButton1);
@@ -255,5 +272,6 @@ namespace TestSQL
         private System.Windows.Forms.RadioButton SortButton1;
         private System.Windows.Forms.RadioButton SortButton2;
         private System.Windows.Forms.RadioButton SortButton3;
+        private System.Windows.Forms.Button ChangeButton;
     }
 }

@@ -15,6 +15,7 @@ namespace TestSQL
 {
     public partial class MainForm : Form
     {
+        #region SQL
         //-----ВСЕ СВЯЗАННОЕ С SQL-----//
         private DB dataBase = new DB();
 
@@ -32,7 +33,7 @@ namespace TestSQL
                         sqlAdapter = new MySqlDataAdapter("SELECT automobile.*FROM automobile", dataBase.GetConnection());
                         break;
                     case States.ORDER_STATE:
-                        sqlAdapter = new MySqlDataAdapter("SELECT orders.id_order, orders.price, orders.state, orders.automobile_id_automobile AS auto_id, orders.Cleints_id_client AS client_id, orders.t_start, orders.t_end FROM orders", dataBase.GetConnection());
+                        sqlAdapter = new MySqlDataAdapter("SELECT orders.id, orders.price, orders.state, orders.automobile_id_automobile AS auto_id, orders.Cleints_id_client AS client_id, orders.t_start, orders.t_end FROM orders", dataBase.GetConnection());
                         break;
                     case States.CLIENT_STATE:
                         sqlAdapter = new MySqlDataAdapter("SELECT cleints.* FROM cleints", dataBase.GetConnection());
@@ -55,7 +56,8 @@ namespace TestSQL
         {
             return this.dataBase;
         }
-        //-----------------------L-----//
+        //----------------------------//
+        #endregion
 
         #region Состояния
         public States CurrentState { set; get; }
@@ -104,6 +106,7 @@ namespace TestSQL
             ClientMainButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
             AddDataButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
             DeleteDataButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
+            ChangeButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
             lastColor = AutomobileMainButton.BackColor;
 
             //Границы кнопок
@@ -120,6 +123,8 @@ namespace TestSQL
             AddDataButton.FlatAppearance.BorderColor = Color.Black;
             DeleteDataButton.FlatAppearance.BorderSize = 2;
             DeleteDataButton.FlatAppearance.BorderColor = Color.Black;
+            ChangeButton.FlatAppearance.BorderSize = 2;
+            ChangeButton.FlatAppearance.BorderColor = Color.Black;
         }
         //-----------------------------// 
         #endregion
@@ -290,6 +295,18 @@ namespace TestSQL
         {
             DeleteDataButton.BackColor = lastColor;
         }
+
+        //Изменить запись
+        private void ChangeButton_MouseEnter(object sender, EventArgs e)
+        {
+            lastColor = ChangeButton.BackColor;
+            ChangeButton.BackColor = Data.COLOR_BUTTON_SELECT;
+        }
+        private void ChangeButton_MouseLeave(object sender, EventArgs e)
+        {
+            ChangeButton.BackColor = lastColor;
+        }
+
         //----------------------------------------------// 
         #endregion
 
@@ -300,5 +317,7 @@ namespace TestSQL
                 this.GetList();
             }
         }
+
+        
     }
 }

@@ -36,6 +36,7 @@ namespace TestSQL
         public static System.Drawing.Color COLOR_BUTTON_ACTIVE = System.Drawing.Color.SkyBlue;
         public static System.Drawing.Color COLOR_BUTTON_UNACTIVE = System.Drawing.Color.SlateGray;
 
+        #region Автомобили
         //Содержимое поля "Марка" в форме добавления автомобилей
         private static string[] SubaruModels =
         {
@@ -75,6 +76,25 @@ namespace TestSQL
             ["LADA"] = LadaModels,
             ["FORD"] = FordModels,
             ["BMW"] = BmvModels,
+        };
+        #endregion
+
+        public static string[] OrderStates =
+        {
+            "Выполняется",
+            "Выполнен",
+            "Провален",
+            "Отменен"
+        };
+
+        public static string[] AutomobileStates =
+        {
+            "Стоит",
+            "Движется",
+            "Ожидает ремонта",
+            "На ремонте",
+            "Не активен",
+            "Списан"
         };
     }
 }

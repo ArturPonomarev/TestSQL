@@ -19,14 +19,16 @@ namespace TestSQL.Forms
 
         public ClientsAddForm(TestSQL.MainForm mainForm)
         {
+            InitializeComponent();
             m_mainForm = mainForm;
             this.InitForm();
-            InitializeComponent();
         }
+
         public void InitForm()
         {
             AddButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
         }
+
         private void AddButton_Click(object sender, EventArgs e)
         {
             try
