@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Windows.Forms;
+using System.Data;
 
 
 namespace TestSQL
@@ -70,6 +71,41 @@ namespace TestSQL
             {
                 MessageBox.Show(E.ToString());
             }
+        }
+
+        public DataTable SelectData(string tableName, string[] fields, string[] names)
+        {
+            string expression = "SELECT ";
+
+            for (int i = 0; i<fields.Length; i++)
+            {
+                expression += tableName + "." + fields[i] + " AS " + names[i];
+
+                if (i != fields.Length - 1)
+                    expression += ", ";
+            }
+
+            expression += " FROM " + tableName;
+
+
+            DataTable table = new DataTable();
+            
+
+            try
+            {
+                this.OpenConnection();
+
+                MySqlDataAdapter adapter = new MySqlDataAdapter(expression,this.connection);
+                adapter.Fill(table);
+
+                this.CloseConnection();
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show(E.ToString());
+            }
+
+            return table;
         }
     } 
 }

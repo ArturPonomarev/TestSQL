@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Windows.Forms;
+using System.Data;
 using MySql.Data.MySqlClient;
 
 namespace TestSQL
 {
     public partial class AutomobileAddForm : Form
     {
-               
+        public ManipulateDataStates DataState { set; get; }       
 
         private MainForm mainForm;
 
@@ -18,21 +19,31 @@ namespace TestSQL
         {
             MarkaBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             ModelBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            ModelBox.Enabled = false;
-
+        
             KyzovBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             StateBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 
             StateBox.Items.AddRange(Data.AutomobileStates);
 
             AddButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
+
+            if (DataState == ManipulateDataStates.ADD_STATE)
+            {
+                ModelBox.Enabled = false;
+            }
+            else
+            {
+                
+            }            
         }
 
-        public AutomobileAddForm(MainForm mainForm)
+        public AutomobileAddForm(MainForm mainForm, ManipulateDataStates dataState)
         {
             InitializeComponent();
+            this.DataState = dataState;
             this.InitForm();
             this.mainForm = mainForm;
+            
         }
 
         private void AutomobileAddForm_FormClosed(object sender, FormClosedEventArgs e)

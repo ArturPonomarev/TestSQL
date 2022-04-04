@@ -89,8 +89,6 @@ namespace TestSQL
             this.InitForm();
 
             this.GetList();
-
-            TestSQL.Code.AdderData.Connection = this.dataBase.GetConnection();
         }
 
         public void InitForm()
@@ -120,7 +118,7 @@ namespace TestSQL
             ClientMainButton.FlatAppearance.BorderSize = 3;
             ClientMainButton.FlatAppearance.BorderColor = Color.Black;
 
-            //добавить удалить кнопки
+            //добавить удалить изменить кнопки
             AddDataButton.FlatAppearance.BorderSize = 2;
             AddDataButton.FlatAppearance.BorderColor = Color.Black;
             DeleteDataButton.FlatAppearance.BorderSize = 2;
@@ -215,7 +213,7 @@ namespace TestSQL
             switch (CurrentState)
             {
                 case DeleteDataStates.AUTOMOBILE_STATE:
-                    AddForm = new AutomobileAddForm(this);
+                    AddForm = new AutomobileAddForm(this, ManipulateDataStates.ADD_STATE);
                     break;
                 case DeleteDataStates.ORDER_STATE:
                     AddForm = new TestSQL.Forms.OrdersAddForm(this);
