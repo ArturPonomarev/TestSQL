@@ -73,13 +73,13 @@ namespace TestSQL
             }
         }
 
-        public DataTable SelectData(string tableName, string[] fields, string[] names)
+        public DataTable SelectData(string tableName, string[] fields, string[] names, string subExpression = "")
         {
             string expression = "SELECT ";
 
             for (int i = 0; i<fields.Length; i++)
             {
-                expression += tableName + "." + fields[i] + " AS " + names[i];
+                expression += tableName + "." + fields[i] + " AS " + "'" + names[i] + "'";
 
                 if (i != fields.Length - 1)
                     expression += ", ";
@@ -87,6 +87,7 @@ namespace TestSQL
 
             expression += " FROM " + tableName;
 
+            expression += subExpression;
 
             DataTable table = new DataTable();
             

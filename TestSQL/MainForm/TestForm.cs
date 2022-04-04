@@ -19,37 +19,75 @@ namespace TestSQL
         //-----ВСЕ СВЯЗАННОЕ С SQL-----//
         private DB dataBase = new DB();
 
-        private MySqlDataAdapter sqlAdapter;
-        
         private void GetList()
         {
-            try
-            {
-                dataBase.OpenConnection();
-                
-                switch (CurrentState)
-                {
-                    case DeleteDataStates.AUTOMOBILE_STATE:
-                        sqlAdapter = new MySqlDataAdapter("SELECT automobile.*FROM automobile", dataBase.GetConnection());
-                        break;
-                    case DeleteDataStates.ORDER_STATE:
-                        sqlAdapter = new MySqlDataAdapter("SELECT orders.id, orders.price, orders.state, orders.automobile_id_automobile AS auto_id, orders.Cleints_id_client AS client_id, orders.t_start, orders.t_end FROM orders", dataBase.GetConnection());
-                        break;
-                    case DeleteDataStates.CLIENT_STATE:
-                        sqlAdapter = new MySqlDataAdapter("SELECT cleints.* FROM cleints", dataBase.GetConnection());
-                        break;
-                }
+            DataTable dataTable = new DataTable();
 
-                DataTable dataTable = new DataTable();
-                sqlAdapter.Fill(dataTable);
-                MainDataGrid.DataSource = dataTable;
+            string subExpression = "";
 
-                dataBase.CloseConnection();
-            }
-            catch
+            switch (CurrentState)
             {
-                MessageBox.Show("Не удается установить соединение с базой данных");
+                case DeleteDataStates.AUTOMOBILE_STATE:
+                    string[] autoNames =
+                    {
+                        "ID",
+                        "Марка",
+                        "Модель",
+                        "Вместимость",
+                        "Цвет",
+                        "Гос. Номер",
+                        "Тип кузова",
+                        "Состояние"
+                    };
+
+
+                    if (SortButton2.Checked)
+                        subExpression = " ORDER BY automobile.marka";
+                    else if (SortButton3.Checked)
+                        subExpression = " ORDER BY automobile.state";
+
+
+                    dataTable = dataBase.SelectData(Data.TABLENAME_AUTO, Data.AutomobileFields, autoNames, subExpression);
+                    break;
+
+                case DeleteDataStates.ORDER_STATE:
+                    string[] orderNames =
+                    {
+                        "ID",
+                        "Цена",
+                        "Состояние",
+                        "ID Авто",
+                        "ID Клиента",
+                        "Дата-время начала",
+                        "Дата-время окончания"
+                    };
+
+                    if (SortButton2.Checked)
+                        subExpression = " ORDER BY orders.price";
+                    else if (SortButton3.Checked)
+                        subExpression = " ORDER BY orders.state";
+
+                    dataTable = dataBase.SelectData(Data.TABLENAME_ORDERS, Data.OrderFields, orderNames, subExpression);
+                    break;
+
+                case DeleteDataStates.CLIENT_STATE:
+                    string[] clientNames =
+                    {
+                        "ID",
+                        "ФИО",
+                        "Телефон"
+                    };
+
+                    if (SortButton2.Checked)
+                        subExpression = " ORDER BY cleints.FIO";
+                    else if (SortButton3.Checked)
+                        subExpression = " ORDER BY cleints.phone_number";
+
+                    dataTable = dataBase.SelectData(Data.TABLENAME_CLIENTS, Data.ClientsFields, clientNames, subExpression);
+                    break;
             }
+
+            MainDataGrid.DataSource = dataTable;
         }
 
         public DB GetDB()
@@ -65,10 +103,6 @@ namespace TestSQL
         #endregion
 
 
-
-        //Способ сортировки
-        private ISort m_sort = new AutomobileSort();
-        //-----------------f
 
         //Последний цвет кнопки (используется при снятии выделении с кнопки)
         private System.Drawing.Color lastColor = System.Drawing.Color.FromArgb(0, 0, 0);
@@ -96,9 +130,6 @@ namespace TestSQL
             SortButton1.Checked = true;
 
             CurrentState = DeleteDataStates.AUTOMOBILE_STATE;
-
-            m_sort = new AutomobileSort();
-            m_sort.Sort();
 
             //Цвет кнопок
             AutomobileMainButton.BackColor = Data.COLOR_BUTTON_ACTIVE;
@@ -134,7 +165,6 @@ namespace TestSQL
         //"Автомобили"
         private void AutomobileMainButton_Click(object sender, EventArgs e)
         {
-            m_sort = new AutomobileSort();
             CurrentState = DeleteDataStates.AUTOMOBILE_STATE;
 
             MainLabel.Text = Data.AUTOMOBILE_LABEL_TEXT;
@@ -153,7 +183,6 @@ namespace TestSQL
         //"Заказы"
         private void OrderMainButton_Click(object sender, EventArgs e)
         {
-            m_sort = new OrderSort();
             CurrentState = DeleteDataStates.ORDER_STATE;
 
             MainLabel.Text = Data.ORDER_LABEL_TEXT;
@@ -171,7 +200,6 @@ namespace TestSQL
         //"Клиенты"
         private void ClientMainButton_Click(object sender, EventArgs e)
         {
-            m_sort = new ClientSort();
             CurrentState = DeleteDataStates.CLIENT_STATE;
 
             MainLabel.Text = Data.CLIENT_LABEL_TEXT;
@@ -192,17 +220,17 @@ namespace TestSQL
         //-----ЧЕКБОКСЫ СОРТИРОВКИ-----//
         private void SortButton1_CheckedChanged(object sender, EventArgs e)
         {
-            m_sort.Sort();
+            this.GetList();
         }
 
         private void SortButton2_CheckedChanged(object sender, EventArgs e)
         {
-            m_sort.Sort();
+            this.GetList();
         }
 
         private void SortButton3_CheckedChanged(object sender, EventArgs e)
         {
-            m_sort.Sort();
+            this.GetList();
         }
         //-----------------------------//
 

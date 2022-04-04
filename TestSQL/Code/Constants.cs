@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace TestSQL
 {
@@ -85,6 +83,7 @@ namespace TestSQL
         };
         #endregion
 
+        //Состояния заказов
         public static string[] OrderStates =
         {
             "Выполняется",
@@ -93,6 +92,7 @@ namespace TestSQL
             "Отменен"
         };
 
+        //Состояния автомобилей
         public static string[] AutomobileStates =
         {
             "Стоит",
@@ -102,5 +102,42 @@ namespace TestSQL
             "Не активен",
             "Списан"
         };
+
+
+        #region Названия полей в таблицах
+        public static string[] AutomobileFields =
+        {
+            "id",
+            "marka",
+            "model",
+            "capacity",
+            "color",
+            "number",
+            "type",
+            "state"
+        };
+
+        public static string[] OrderFields =
+        {
+            "id",
+            "price",
+            "state",
+            "automobile_id_automobile",
+            "Cleints_id_client",
+            "t_start",
+            "t_end"
+        };
+
+        public static string[] ClientsFields =
+        {
+            "id",
+            "FIO",
+            "phone_number"
+        };
+        #endregion
+
+        public const string TABLENAME_AUTO = "automobile";
+        public const string TABLENAME_ORDERS = "orders";
+        public const string TABLENAME_CLIENTS = "cleints";
     }
 }

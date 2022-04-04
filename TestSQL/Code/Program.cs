@@ -6,38 +6,6 @@ using System.Windows.Forms;
 
 namespace TestSQL
 {
-    interface ISort
-    {
-        void Sort();
-    }
-
-    class AutomobileSort
-        :ISort
-    {
-        public void Sort()
-        {
-
-        }
-    }
-
-    class OrderSort
-        :ISort
-    {
-        public void Sort()
-        {
-
-        }
-    }
-
-    class ClientSort
-        : ISort
-    {
-        public void Sort()
-        {
-
-        }
-    }
-
     static class Program
     {
         /// <summary>
