@@ -50,7 +50,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Code\AdderData.cs" />
     <Compile Include="Code\Constants.cs" />
     <Compile Include="Code\DB.cs" />
     <Compile Include="Forms\AutomobileAddForm.cs">

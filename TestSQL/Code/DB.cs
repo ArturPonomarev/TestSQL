@@ -1,10 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Windows.Forms;
+
 
 namespace TestSQL
 {
@@ -29,6 +26,50 @@ namespace TestSQL
         public MySqlConnection GetConnection()
         {
             return this.connection;
+        }
+
+        public void AddData(string[] fieldNames, string tableName, object[] fieldObjects)
+        {
+            try
+            {
+                string expression = @"INSERT INTO " + tableName + " (";
+
+                for (int i = 0; i < fieldNames.Length; ++i)
+                {
+                    expression += fieldNames[i];
+                    if (i != fieldNames.Length - 1)
+                        expression += ", ";
+                }
+
+                expression += ") VALUES (";
+
+                for (int i = 0; i < fieldNames.Length; ++i)
+                {
+                    expression += "@";
+                    expression += fieldNames[i];
+                    if (i != fieldNames.Length - 1)
+                        expression += ", ";
+                }
+
+                expression += ")";
+
+                MySqlCommand cmd = new MySqlCommand(expression, connection);
+
+                for (int i = 0; i < fieldObjects.Length; ++i)
+                {
+                    expression = "@";
+                    expression += fieldNames[i];
+                    cmd.Parameters.AddWithValue(expression, fieldObjects[i]);
+                }
+
+                cmd.Connection.Open();
+                cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show(E.ToString());
+            }
         }
     } 
 }

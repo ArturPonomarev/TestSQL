@@ -61,30 +61,18 @@ namespace TestSQL
                 return;
             }
 
-            try
-            {
-                MySqlCommand cmd = new MySqlCommand(@"INSERT INTO 
-                        automobile (marka, model, capacity, color, number, type, state) 
-                        VALUES 
-                        (@marka, @model, @capacity, @color, @number, @type, @state)", mainForm.GetDB().GetConnection());
+            string[] names = { "marka", "model", "capacity", "color", "number", "type", "state" };
+            object[] fields = { 
+                MarkaBox.SelectedItem.ToString(),
+                ModelBox.SelectedItem.ToString(),
+                Convert.ToInt32(CapacityBox.Text),
+                ColorBox.Text,
+                NumberBox.Text,
+                KyzovBox.SelectedItem.ToString(),
+                StateBox.SelectedItem.ToString()                
+            };
 
-                
-                cmd.Parameters.AddWithValue("@marka", MarkaBox.SelectedItem.ToString());
-                cmd.Parameters.AddWithValue("@model", ModelBox.SelectedItem.ToString());
-                cmd.Parameters.AddWithValue("@number", NumberBox.Text);
-                cmd.Parameters.AddWithValue("@type", KyzovBox.SelectedItem.ToString());
-                cmd.Parameters.AddWithValue("@state", StateBox.SelectedItem.ToString());
-                cmd.Parameters.AddWithValue("@capacity", Convert.ToInt32(CapacityBox.Text));
-                cmd.Parameters.AddWithValue("@color", ColorBox.Text);
-
-                cmd.Connection.Open();
-                cmd.ExecuteNonQuery();
-                cmd.Connection.Close();
-            }
-            catch (Exception E)
-            {
-                MessageBox.Show(E.ToString());
-            }
+            mainForm.GetDB().AddData(names, "automobile", fields);      
 
             this.Close();
         }

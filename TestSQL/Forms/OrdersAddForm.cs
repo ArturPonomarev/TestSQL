@@ -16,7 +16,7 @@ namespace TestSQL.Forms
         //Последний цвет кнопки (используется при снятии выделении с кнопки)
         private System.Drawing.Color lastColor = System.Drawing.Color.FromArgb(0, 0, 0);
 
-        private TestSQL.MainForm m_mainForm;
+        private TestSQL.MainForm mainForm;
 
         public void InitForm()
         {
@@ -41,7 +41,7 @@ namespace TestSQL.Forms
 	                                  WHERE NOT EXISTS (SELECT orders.Cleints_id_client FROM orders 
                                                         WHERE orders.state = 'Выполняется' 
                                                           AND cleints.id = orders.Cleints_id_client)";
-                adapter = new MySqlDataAdapter(expression, m_mainForm.GetDB().GetConnection());
+                adapter = new MySqlDataAdapter(expression, mainForm.GetDB().GetConnection());
                 adapter.Fill(freeClientsTable);
 
                 ClientBox.Items.Clear();
@@ -55,7 +55,7 @@ namespace TestSQL.Forms
                                WHERE NOT EXISTS (SELECT orders.automobile_id_automobile FROM orders 
                                                  WHERE orders.state = 'Выполняется' 
                                                    AND automobile.id = orders.automobile_id_automobile)";
-                adapter = new MySqlDataAdapter(expression, m_mainForm.GetDB().GetConnection());
+                adapter = new MySqlDataAdapter(expression, mainForm.GetDB().GetConnection());
                 adapter.Fill(freeAutoTable);
 
                 AutoBox.Items.Clear();
@@ -75,14 +75,14 @@ namespace TestSQL.Forms
 
         public OrdersAddForm(TestSQL.MainForm mainForm)
         {
-            this.m_mainForm = mainForm;
+            this.mainForm = mainForm;
             InitializeComponent();
             InitForm();
         }
 
         private void OrdersAddForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            m_mainForm.Enabled = true;
+            mainForm.Enabled = true;
         }
 
         private void AddButton_MouseEnter(object sender, EventArgs e)
@@ -98,46 +98,47 @@ namespace TestSQL.Forms
 
         private void AddButton_Click(object sender, EventArgs e)
         {
+            int autoID = -1;
+            int clientID = -1;
+
             try
             {
-                MySqlCommand cmd = new MySqlCommand(@"INSERT INTO 
-                        orders (price, state, automobile_id_automobile, Cleints_id_client, t_start, t_end) 
-                        VALUES 
-                        (@price, @state, @auto_id, @client_id, @t_start, @t_end)", m_mainForm.GetDB().GetConnection());
-
-
                 //Получение айди клиентов по фио
                 string expression;
-                expression = string.Format("SELECT cleints.id FROM cleints WHERE cleints.FIO = '{0}'", ClientBox.SelectedItem.ToString());          
-                MySqlDataAdapter adapter = new MySqlDataAdapter(expression,m_mainForm.GetDB().GetConnection());
+                expression = string.Format("SELECT cleints.id FROM cleints WHERE cleints.FIO = '{0}'", ClientBox.SelectedItem.ToString());
+                MySqlDataAdapter adapter = new MySqlDataAdapter(expression, mainForm.GetDB().GetConnection());
                 DataTable clients = new DataTable();
                 adapter.Fill(clients);
-                
+                clientID = Convert.ToInt32(clients.Rows[0][0]);
 
                 //Получение айди авто по марка модель
                 string[] markaModel = AutoBox.SelectedItem.ToString().Split(' ');
                 expression = string.Format(@"SELECT automobile.id FROM automobile WHERE automobile.marka = '{0}' and automobile.model = '{1}'",
                     markaModel[0], markaModel[1]);
-                adapter = new MySqlDataAdapter(expression, m_mainForm.GetDB().GetConnection());
+                adapter = new MySqlDataAdapter(expression, mainForm.GetDB().GetConnection());
                 DataTable auto = new DataTable();
                 adapter.Fill(auto);
+                autoID = Convert.ToInt32(auto.Rows[0][0]);
 
-
-                cmd.Parameters.AddWithValue("@price", Convert.ToInt32(PriceBox.Text));
-                cmd.Parameters.AddWithValue("@state", StateBox.SelectedItem.ToString());
-                cmd.Parameters.AddWithValue("@auto_id", Convert.ToInt32(auto.Rows[0][0]));
-                cmd.Parameters.AddWithValue("@client_id", Convert.ToInt32(clients.Rows[0][0]));
-                cmd.Parameters.AddWithValue("@t_start", DateTime.Parse(DataStartBox.Text));
-                cmd.Parameters.AddWithValue("@t_end", DateTime.Parse(DataFinishBox.Text));
-
-                cmd.Connection.Open();
-                cmd.ExecuteNonQuery();
-                cmd.Connection.Close();
             }
             catch (Exception E)
             {
                 MessageBox.Show(E.ToString());
             }
+
+
+            string[] names = { "price", "state", "automobile_id_automobile", "Cleints_id_client", "t_start", "t_end" };
+            object[] fields =
+            {
+                Convert.ToInt32(PriceBox.Text),
+                StateBox.SelectedItem.ToString(),
+                autoID,
+                clientID,
+                DateTime.Parse(DataStartBox.Text),
+                DateTime.Parse(DataFinishBox.Text)
+            };
+
+            mainForm.GetDB().AddData(names, "orders", fields);
 
             this.Close();
         }

@@ -15,12 +15,12 @@ namespace TestSQL.Forms
     {
         //Последний цвет кнопки (используется при снятии выделении с кнопки)
         private System.Drawing.Color lastColor = System.Drawing.Color.FromArgb(0, 0, 0);
-        private TestSQL.MainForm m_mainForm;
+        private TestSQL.MainForm mainForm;
 
         public ClientsAddForm(TestSQL.MainForm mainForm)
         {
             InitializeComponent();
-            m_mainForm = mainForm;
+            this.mainForm = mainForm;
             this.InitForm();
         }
 
@@ -31,25 +31,10 @@ namespace TestSQL.Forms
 
         private void AddButton_Click(object sender, EventArgs e)
         {
-            try
-            {
-                MySqlCommand cmd = new MySqlCommand(@"INSERT INTO 
-                        cleints (FIO, phone_number) 
-                        VALUES 
-                        (@fio, @number)", m_mainForm.GetDB().GetConnection());
+            string[] names = { "FIO", "phone_number" };
+            object[] fields = { FIOBox.Text, PhoneBox.Text };
 
-
-                cmd.Parameters.AddWithValue("@fio", FIOBox.Text);
-                cmd.Parameters.AddWithValue("@number", PhoneBox.Text);
-
-                cmd.Connection.Open();
-                cmd.ExecuteNonQuery();
-                cmd.Connection.Close();
-            }
-            catch (Exception E)
-            {
-                MessageBox.Show(E.ToString());
-            }
+            mainForm.GetDB().AddData(names, "cleints", fields);
 
             this.Close();
         }
@@ -65,7 +50,7 @@ namespace TestSQL.Forms
 
         private void ClientsAddForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            m_mainForm.Enabled = true;
+            mainForm.Enabled = true;
         }
     }
 }

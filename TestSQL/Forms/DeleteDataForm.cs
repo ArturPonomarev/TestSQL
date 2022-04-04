@@ -32,20 +32,19 @@ namespace TestSQL.Forms
         {
             switch(mainForm.CurrentState)
             {
-                case States.AUTOMOBILE_STATE:
+                case DeleteDataStates.AUTOMOBILE_STATE:
                     IDLabel.Text = "ID авто";
                     tableName = "automobile";
                     break;
-                case States.ORDER_STATE:
+                case DeleteDataStates.ORDER_STATE:
                     IDLabel.Text = "ID заказа";
                     tableName = "orders";
                     break;
-                case States.CLIENT_STATE:
+                case DeleteDataStates.CLIENT_STATE:
                     IDLabel.Text = "ID клиента";
                     tableName = "cleints";
                     break;
             }
-
 
             DeleteButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
         }
@@ -59,7 +58,6 @@ namespace TestSQL.Forms
         {
             try
             {
-                //TODO сделать изменение состояния автомобиля, если был удален заказ, который выполнял автомобиль
                 string expression;
                 expression = string.Format(@"DELETE FROM " + tableName + " WHERE id = {0}",
                                 Convert.ToInt32(DeleteBox.Text));

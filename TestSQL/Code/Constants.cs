@@ -6,11 +6,17 @@ using System.Threading.Tasks;
 
 namespace TestSQL
 {
-    public enum States
+    public enum DeleteDataStates
     {
         AUTOMOBILE_STATE,
         ORDER_STATE,
         CLIENT_STATE,
+    };
+    
+    public enum ManipulateDataStates
+    {
+        ADD_STATE,
+        UPDATE_STATE
     };
 
     static class Data

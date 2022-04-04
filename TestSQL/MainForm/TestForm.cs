@@ -29,13 +29,13 @@ namespace TestSQL
                 
                 switch (CurrentState)
                 {
-                    case States.AUTOMOBILE_STATE:
+                    case DeleteDataStates.AUTOMOBILE_STATE:
                         sqlAdapter = new MySqlDataAdapter("SELECT automobile.*FROM automobile", dataBase.GetConnection());
                         break;
-                    case States.ORDER_STATE:
+                    case DeleteDataStates.ORDER_STATE:
                         sqlAdapter = new MySqlDataAdapter("SELECT orders.id, orders.price, orders.state, orders.automobile_id_automobile AS auto_id, orders.Cleints_id_client AS client_id, orders.t_start, orders.t_end FROM orders", dataBase.GetConnection());
                         break;
-                    case States.CLIENT_STATE:
+                    case DeleteDataStates.CLIENT_STATE:
                         sqlAdapter = new MySqlDataAdapter("SELECT cleints.* FROM cleints", dataBase.GetConnection());
                         break;
                 }
@@ -60,7 +60,7 @@ namespace TestSQL
         #endregion
 
         #region Состояния
-        public States CurrentState { set; get; }
+        public DeleteDataStates CurrentState { set; get; }
 
         #endregion
 
@@ -89,13 +89,15 @@ namespace TestSQL
             this.InitForm();
 
             this.GetList();
+
+            TestSQL.Code.AdderData.Connection = this.dataBase.GetConnection();
         }
 
         public void InitForm()
         {
             SortButton1.Checked = true;
 
-            CurrentState = States.AUTOMOBILE_STATE;
+            CurrentState = DeleteDataStates.AUTOMOBILE_STATE;
 
             m_sort = new AutomobileSort();
             m_sort.Sort();
@@ -135,7 +137,7 @@ namespace TestSQL
         private void AutomobileMainButton_Click(object sender, EventArgs e)
         {
             m_sort = new AutomobileSort();
-            CurrentState = States.AUTOMOBILE_STATE;
+            CurrentState = DeleteDataStates.AUTOMOBILE_STATE;
 
             MainLabel.Text = Data.AUTOMOBILE_LABEL_TEXT;
             SortButton1.Text = Data.AUTOMOBILE_FIRSTCHECKBOX_TEXT;
@@ -154,7 +156,7 @@ namespace TestSQL
         private void OrderMainButton_Click(object sender, EventArgs e)
         {
             m_sort = new OrderSort();
-            CurrentState = States.ORDER_STATE;
+            CurrentState = DeleteDataStates.ORDER_STATE;
 
             MainLabel.Text = Data.ORDER_LABEL_TEXT;
             SortButton1.Text = Data.ORDER_FIRSTCHECKBOX_TEXT;
@@ -172,7 +174,7 @@ namespace TestSQL
         private void ClientMainButton_Click(object sender, EventArgs e)
         {
             m_sort = new ClientSort();
-            CurrentState = States.CLIENT_STATE;
+            CurrentState = DeleteDataStates.CLIENT_STATE;
 
             MainLabel.Text = Data.CLIENT_LABEL_TEXT;
             SortButton1.Text = Data.CLIENT_FIRSTCHECKBOX_TEXT;
@@ -212,13 +214,13 @@ namespace TestSQL
         {
             switch (CurrentState)
             {
-                case States.AUTOMOBILE_STATE:
+                case DeleteDataStates.AUTOMOBILE_STATE:
                     AddForm = new AutomobileAddForm(this);
                     break;
-                case States.ORDER_STATE:
+                case DeleteDataStates.ORDER_STATE:
                     AddForm = new TestSQL.Forms.OrdersAddForm(this);
                     break;
-                case States.CLIENT_STATE:
+                case DeleteDataStates.CLIENT_STATE:
                     AddForm = new TestSQL.Forms.ClientsAddForm(this);
                     break;
             }
