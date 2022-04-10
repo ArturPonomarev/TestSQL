@@ -18,7 +18,5 @@ namespace TestSQL
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new MainForm());
         }
-
-
     }
 }

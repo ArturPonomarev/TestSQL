@@ -59,17 +59,17 @@
       <DependentUpon>AutomobileAddForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Code\Program.cs" />
+    <Compile Include="Forms\AutomobileChangeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\AutomobileChangeForm.Designer.cs">
+      <DependentUpon>AutomobileChangeForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\ClientsAddForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\ClientsAddForm.Designer.cs">
       <DependentUpon>ClientsAddForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\DeleteDataForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\DeleteDataForm.Designer.cs">
-      <DependentUpon>DeleteDataForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\OrdersAddForm.cs">
       <SubType>Form</SubType>
@@ -87,11 +87,11 @@
     <EmbeddedResource Include="Forms\AutomobileAddForm.resx">
       <DependentUpon>AutomobileAddForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\AutomobileChangeForm.resx">
+      <DependentUpon>AutomobileChangeForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\ClientsAddForm.resx">
       <DependentUpon>ClientsAddForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\DeleteDataForm.resx">
-      <DependentUpon>DeleteDataForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\OrdersAddForm.resx">
       <DependentUpon>OrdersAddForm.cs</DependentUpon>

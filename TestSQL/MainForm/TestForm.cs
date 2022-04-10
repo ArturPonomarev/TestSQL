@@ -27,7 +27,7 @@ namespace TestSQL
 
             switch (CurrentState)
             {
-                case DeleteDataStates.AUTOMOBILE_STATE:
+                case DataState.AUTOMOBILE_STATE:
                     string[] autoNames =
                     {
                         "ID",
@@ -50,7 +50,7 @@ namespace TestSQL
                     dataTable = dataBase.SelectData(Data.TABLENAME_AUTO, Data.AutomobileFields, autoNames, subExpression);
                     break;
 
-                case DeleteDataStates.ORDER_STATE:
+                case DataState.ORDER_STATE:
                     string[] orderNames =
                     {
                         "ID",
@@ -70,7 +70,7 @@ namespace TestSQL
                     dataTable = dataBase.SelectData(Data.TABLENAME_ORDERS, Data.OrderFields, orderNames, subExpression);
                     break;
 
-                case DeleteDataStates.CLIENT_STATE:
+                case DataState.CLIENT_STATE:
                     string[] clientNames =
                     {
                         "ID",
@@ -98,7 +98,7 @@ namespace TestSQL
         #endregion
 
         #region Состояния
-        public DeleteDataStates CurrentState { set; get; }
+        public DataState CurrentState { set; get; }
 
         #endregion
 
@@ -107,12 +107,10 @@ namespace TestSQL
         //Последний цвет кнопки (используется при снятии выделении с кнопки)
         private System.Drawing.Color lastColor = System.Drawing.Color.FromArgb(0, 0, 0);
 
-        //Форма добавления записей для автомобилей
+        //Форма добавления записей 
         Form AddForm;
-
-        //Форма удаления записи
-        TestSQL.Forms.DeleteDataForm deleteDataForm;
-
+        //Форма удаления записей
+        Form ChangeForm;
 
         #region Инициализация
         //-----ИНИЦИАЛИЗАЦИЯ ФОРМЫ-----//
@@ -129,7 +127,7 @@ namespace TestSQL
         {
             SortButton1.Checked = true;
 
-            CurrentState = DeleteDataStates.AUTOMOBILE_STATE;
+            CurrentState = DataState.AUTOMOBILE_STATE;
 
             //Цвет кнопок
             AutomobileMainButton.BackColor = Data.COLOR_BUTTON_ACTIVE;
@@ -160,12 +158,12 @@ namespace TestSQL
         //-----------------------------// 
         #endregion
 
-
+        #region Клик по верхним кнопкам
         //-----ВЕРХНИЕ КНОПКИ-----//
         //"Автомобили"
         private void AutomobileMainButton_Click(object sender, EventArgs e)
         {
-            CurrentState = DeleteDataStates.AUTOMOBILE_STATE;
+            CurrentState = DataState.AUTOMOBILE_STATE;
 
             MainLabel.Text = Data.AUTOMOBILE_LABEL_TEXT;
             SortButton1.Text = Data.AUTOMOBILE_FIRSTCHECKBOX_TEXT;
@@ -183,7 +181,7 @@ namespace TestSQL
         //"Заказы"
         private void OrderMainButton_Click(object sender, EventArgs e)
         {
-            CurrentState = DeleteDataStates.ORDER_STATE;
+            CurrentState = DataState.ORDER_STATE;
 
             MainLabel.Text = Data.ORDER_LABEL_TEXT;
             SortButton1.Text = Data.ORDER_FIRSTCHECKBOX_TEXT;
@@ -200,7 +198,7 @@ namespace TestSQL
         //"Клиенты"
         private void ClientMainButton_Click(object sender, EventArgs e)
         {
-            CurrentState = DeleteDataStates.CLIENT_STATE;
+            CurrentState = DataState.CLIENT_STATE;
 
             MainLabel.Text = Data.CLIENT_LABEL_TEXT;
             SortButton1.Text = Data.CLIENT_FIRSTCHECKBOX_TEXT;
@@ -215,7 +213,7 @@ namespace TestSQL
             this.GetList();
         }
         //------------------------//
-
+        #endregion
 
         //-----ЧЕКБОКСЫ СОРТИРОВКИ-----//
         private void SortButton1_CheckedChanged(object sender, EventArgs e)
@@ -240,18 +238,16 @@ namespace TestSQL
         {
             switch (CurrentState)
             {
-                case DeleteDataStates.AUTOMOBILE_STATE:
+                case DataState.AUTOMOBILE_STATE:
                     AddForm = new AutomobileAddForm(this, ManipulateDataStates.ADD_STATE);
                     break;
-                case DeleteDataStates.ORDER_STATE:
+                case DataState.ORDER_STATE:
                     AddForm = new TestSQL.Forms.OrdersAddForm(this);
                     break;
-                case DeleteDataStates.CLIENT_STATE:
+                case DataState.CLIENT_STATE:
                     AddForm = new TestSQL.Forms.ClientsAddForm(this);
                     break;
             }
-            
-
 
             this.Enabled = false;
             AddForm.Show();
@@ -259,10 +255,22 @@ namespace TestSQL
 
         private void DeleteDataButton_Click(object sender, EventArgs e)
         {
-            deleteDataForm = new TestSQL.Forms.DeleteDataForm(this);
+            int id = Convert.ToInt32(DeleteIDBox.Text);
 
-            this.Enabled = false;
-            deleteDataForm.Show();
+            switch (this.CurrentState)
+            {
+                case DataState.AUTOMOBILE_STATE:
+                    this.dataBase.DeleteData(Data.TABLENAME_AUTO, id);
+                    break;
+                case DataState.CLIENT_STATE:
+                    this.dataBase.DeleteData(Data.TABLENAME_CLIENTS, id);
+                    break;
+                case DataState.ORDER_STATE:
+                    this.dataBase.DeleteData(Data.TABLENAME_ORDERS, id);
+                    break;
+            }
+
+            this.GetList();
         }
         //---------------------------------------------//
 
@@ -346,6 +354,12 @@ namespace TestSQL
             }
         }
 
-        
+        private void ChangeButton_Click(object sender, EventArgs e)
+        {
+            ChangeForm = new TestSQL.Forms.AutomobileChangeForm(Convert.ToInt32(ChangeIDBox.Text), this);
+
+            this.Enabled = false;
+            ChangeForm.Show();
+        }
     }
 }

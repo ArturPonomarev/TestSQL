@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace TestSQL
 {
-    public enum DeleteDataStates
+    public enum DataState
     {
         AUTOMOBILE_STATE,
         ORDER_STATE,

@@ -27,14 +27,8 @@ namespace TestSQL
 
             AddButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
 
-            if (DataState == ManipulateDataStates.ADD_STATE)
-            {
-                ModelBox.Enabled = false;
-            }
-            else
-            {
-                
-            }            
+            ModelBox.Enabled = false;
+        
         }
 
         public AutomobileAddForm(MainForm mainForm, ManipulateDataStates dataState)

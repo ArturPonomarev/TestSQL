@@ -42,6 +42,8 @@ namespace TestSQL
             this.SortButton2 = new System.Windows.Forms.RadioButton();
             this.SortButton3 = new System.Windows.Forms.RadioButton();
             this.ChangeButton = new System.Windows.Forms.Button();
+            this.ChangeIDBox = new System.Windows.Forms.TextBox();
+            this.DeleteIDBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.MainDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -139,9 +141,9 @@ namespace TestSQL
             this.DeleteDataButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.DeleteDataButton.Font = new System.Drawing.Font("Malgun Gothic", 24F, System.Drawing.FontStyle.Bold);
             this.DeleteDataButton.ForeColor = System.Drawing.Color.Black;
-            this.DeleteDataButton.Location = new System.Drawing.Point(827, 836);
+            this.DeleteDataButton.Location = new System.Drawing.Point(908, 836);
             this.DeleteDataButton.Name = "DeleteDataButton";
-            this.DeleteDataButton.Size = new System.Drawing.Size(400, 60);
+            this.DeleteDataButton.Size = new System.Drawing.Size(319, 60);
             this.DeleteDataButton.TabIndex = 7;
             this.DeleteDataButton.Text = "Удалить запись";
             this.DeleteDataButton.UseVisualStyleBackColor = false;
@@ -220,14 +222,32 @@ namespace TestSQL
             this.ChangeButton.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ChangeButton.Font = new System.Drawing.Font("Malgun Gothic", 24F, System.Drawing.FontStyle.Bold);
             this.ChangeButton.ForeColor = System.Drawing.Color.Black;
-            this.ChangeButton.Location = new System.Drawing.Point(827, 749);
+            this.ChangeButton.Location = new System.Drawing.Point(908, 749);
             this.ChangeButton.Name = "ChangeButton";
-            this.ChangeButton.Size = new System.Drawing.Size(400, 60);
+            this.ChangeButton.Size = new System.Drawing.Size(319, 60);
             this.ChangeButton.TabIndex = 16;
             this.ChangeButton.Text = "Изменить запись";
             this.ChangeButton.UseVisualStyleBackColor = false;
+            this.ChangeButton.Click += new System.EventHandler(this.ChangeButton_Click);
             this.ChangeButton.MouseEnter += new System.EventHandler(this.ChangeButton_MouseEnter);
             this.ChangeButton.MouseLeave += new System.EventHandler(this.ChangeButton_MouseLeave);
+            // 
+            // ChangeIDBox
+            // 
+            this.ChangeIDBox.Font = new System.Drawing.Font("Malgun Gothic", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ChangeIDBox.Location = new System.Drawing.Point(827, 754);
+            this.ChangeIDBox.Name = "ChangeIDBox";
+            this.ChangeIDBox.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.ChangeIDBox.Size = new System.Drawing.Size(75, 50);
+            this.ChangeIDBox.TabIndex = 17;
+            // 
+            // DeleteIDBox
+            // 
+            this.DeleteIDBox.Font = new System.Drawing.Font("Malgun Gothic", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DeleteIDBox.Location = new System.Drawing.Point(827, 841);
+            this.DeleteIDBox.Name = "DeleteIDBox";
+            this.DeleteIDBox.Size = new System.Drawing.Size(75, 50);
+            this.DeleteIDBox.TabIndex = 18;
             // 
             // MainForm
             // 
@@ -236,6 +256,8 @@ namespace TestSQL
             this.AutoSize = true;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(1264, 921);
+            this.Controls.Add(this.DeleteIDBox);
+            this.Controls.Add(this.ChangeIDBox);
             this.Controls.Add(this.ChangeButton);
             this.Controls.Add(this.SortButton3);
             this.Controls.Add(this.SortButton2);
@@ -273,5 +295,7 @@ namespace TestSQL
         private System.Windows.Forms.RadioButton SortButton2;
         private System.Windows.Forms.RadioButton SortButton3;
         private System.Windows.Forms.Button ChangeButton;
+        private System.Windows.Forms.TextBox ChangeIDBox;
+        private System.Windows.Forms.TextBox DeleteIDBox;
     }
 }

@@ -73,6 +73,40 @@ namespace TestSQL
             }
         }
 
+        public void UpdateData(string tableName, string[] fieldNames, string[] newItems, string whereContidion)
+        {
+            try
+            {
+                string expression = @"UPDATE " + tableName + " SET ";
+
+                for (int i = 0; i < fieldNames.Length; ++i)
+                {
+                    expression += fieldNames[i] + " = @" + fieldNames[i];
+                    if (i != fieldNames.Length - 1)
+                        expression += ", ";
+                }
+
+                expression += " WHERE " + whereContidion;
+
+                MySqlCommand cmd = new MySqlCommand(expression, connection);
+
+                for (int i = 0; i < fieldNames.Length; ++i)
+                {
+                    expression = "@";
+                    expression += fieldNames[i];
+                    cmd.Parameters.AddWithValue(expression, newItems[i]);
+                }
+
+                cmd.Connection.Open();
+                cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show(E.ToString());
+            }
+        }
+
         public DataTable SelectData(string tableName, string[] fields, string[] names, string subExpression = "")
         {
             string expression = "SELECT ";
@@ -90,7 +124,8 @@ namespace TestSQL
             expression += subExpression;
 
             DataTable table = new DataTable();
-            
+
+            //MessageBox.Show(expression, "DB.cs");
 
             try
             {
@@ -108,5 +143,24 @@ namespace TestSQL
 
             return table;
         }
-    } 
+
+        public void DeleteData(string tableName, int id)
+        {
+            try
+            {
+                string expression;
+                expression = "DELETE FROM " + tableName + " WHERE id = " + id.ToString();
+
+                MySqlCommand cmd = new MySqlCommand(expression, connection);
+
+                cmd.Connection.Open();
+                cmd.ExecuteNonQuery();
+                cmd.Connection.Close();
+            }
+            catch (Exception E)
+            {
+                MessageBox.Show(E.ToString());
+            }
+        }
+    }
 }
