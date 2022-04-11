@@ -23,6 +23,8 @@ namespace TestSQL
             KyzovBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             StateBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 
+            MarkaBox.Items.AddRange(Data.nameAutos);
+
             StateBox.Items.AddRange(Data.AutomobileStates);
 
             AddButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;

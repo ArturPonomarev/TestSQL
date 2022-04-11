@@ -157,12 +157,6 @@ namespace TestSQL
             // 
             this.MarkaBox.Font = new System.Drawing.Font("Malgun Gothic", 12F, System.Drawing.FontStyle.Bold);
             this.MarkaBox.FormattingEnabled = true;
-            this.MarkaBox.Items.AddRange(new object[] {
-            "SUBARU",
-            "FORD",
-            "AUDI",
-            "LADA",
-            "BMW"});
             this.MarkaBox.Location = new System.Drawing.Point(27, 62);
             this.MarkaBox.Name = "MarkaBox";
             this.MarkaBox.Size = new System.Drawing.Size(139, 29);

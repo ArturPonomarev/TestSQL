@@ -41,45 +41,41 @@ namespace TestSQL
         public static System.Drawing.Color COLOR_BUTTON_UNACTIVE = System.Drawing.Color.SlateGray;
 
         #region Автомобили
+        public static string[] nameAutos =
+        {
+            "TESLA",
+            "NISSAN",
+            "AUDI"
+        };
+
         //Содержимое поля "Марка" в форме добавления автомобилей
-        private static string[] SubaruModels =
+        private static string[] TeslaModels =
         {
-            "FORESTER",
-            "IMPREZA",
-            "OUTBACK"
+            "Model S",
+            "Model 3",
+            "Model X",
+            "Model Y",
+
         };
-        private static string[] BmvModels =
+        private static string[] NissanModels =
         {
-            "X1",
-            "X3",
-            "X6"
+            "Leaf",
+            "Serena",
         };
-        private static string[] FordModels =
-        {
-            "FIESTA",
-            "FOCUS",
-            "MUSTANG"
-        };
-        private static string[] LadaModels =
-        {
-            "VESTA",
-            "GRANTA",
-            "KALINA"
-        };
+
         private static string[] AudiModels =
         {
-            "A1",
-            "SQ8",
-            "S7"
+            "A7",
+            "RS7",
+            "A8",
+            "TTS"
         };
 
         public static Dictionary<string, string[]> MarkaModel = new Dictionary<string, string[]>()
         {
-            ["SUBARU"] = SubaruModels,
-            ["AUDI"] = AudiModels,
-            ["LADA"] = LadaModels,
-            ["FORD"] = FordModels,
-            ["BMW"] = BmvModels,
+            [nameAutos[0]] = TeslaModels,
+            [nameAutos[1]] = NissanModels,
+            [nameAutos[2]] = AudiModels,
         };
         #endregion
 

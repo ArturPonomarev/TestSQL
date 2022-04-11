@@ -105,11 +105,14 @@ namespace TestSQL.Forms
                 clientID = Convert.ToInt32(clients.Rows[0][0]);
 
                 //Получение айди авто по марка модель
-                string[] markaModel = AutoBox.SelectedItem.ToString().Split(' ');
+                char[] separator = { ' ', };
+                string[] markaModel = AutoBox.SelectedItem.ToString().Split(separator,2);
                 expression = string.Format(@"SELECT automobile.id FROM automobile WHERE automobile.marka = '{0}' and automobile.model = '{1}'",
                     markaModel[0], markaModel[1]);
                 adapter = new MySqlDataAdapter(expression, mainForm.GetDB().GetConnection());
+
                 DataTable auto = new DataTable();
+                
                 adapter.Fill(auto);
                 autoID = Convert.ToInt32(auto.Rows[0][0]);
 
@@ -131,7 +134,7 @@ namespace TestSQL.Forms
                 DateTime.Now,
             };
 
-            mainForm.GetDB().AddData(names, "orders", fields);
+            mainForm.GetDB().AddData(names, Data.TABLENAME_ORDERS, fields);
 
             this.Close();
         }
