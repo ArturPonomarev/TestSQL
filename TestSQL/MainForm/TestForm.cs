@@ -272,6 +272,26 @@ namespace TestSQL
 
             this.GetList();
         }
+
+        private void ChangeButton_Click(object sender, EventArgs e)
+        {
+            switch (CurrentState)
+            {
+                case DataState.AUTOMOBILE_STATE:
+                    ChangeForm = new TestSQL.Forms.AutomobileChangeForm(Convert.ToInt32(ChangeIDBox.Text), this);
+                    break;
+                case DataState.ORDER_STATE:
+                    ChangeForm = new TestSQL.Forms.OrdersChangeForm(Convert.ToInt32(ChangeIDBox.Text), this);
+                    break;
+                case DataState.CLIENT_STATE:
+                    ChangeForm = new TestSQL.Forms.ClientsChangeForm(Convert.ToInt32(ChangeIDBox.Text), this);
+                    break;
+            }
+            
+
+            this.Enabled = false;
+            ChangeForm.Show();
+        }
         //---------------------------------------------//
 
 
@@ -352,14 +372,6 @@ namespace TestSQL
             {
                 this.GetList();
             }
-        }
-
-        private void ChangeButton_Click(object sender, EventArgs e)
-        {
-            ChangeForm = new TestSQL.Forms.AutomobileChangeForm(Convert.ToInt32(ChangeIDBox.Text), this);
-
-            this.Enabled = false;
-            ChangeForm.Show();
         }
     }
 }

@@ -29,6 +29,8 @@ namespace TestSQL
             return this.connection;
         }
 
+        //Добавляет в таблицу TableName данные fieldObjects, на имена fieldNames
+        //Можно указать не все поля таблицы
         public void AddData(string[] fieldNames, string tableName, object[] fieldObjects)
         {
             try
@@ -72,6 +74,8 @@ namespace TestSQL
                 MessageBox.Show(E.ToString());
             }
         }
+
+
 
         public void UpdateData(string tableName, string[] fieldNames, string[] newItems, string whereContidion)
         {

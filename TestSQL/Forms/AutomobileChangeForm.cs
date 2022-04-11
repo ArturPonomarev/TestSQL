@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace TestSQL.Forms
@@ -13,7 +7,9 @@ namespace TestSQL.Forms
     public partial class AutomobileChangeForm : Form
     {
         private int NoteID { set; get; }
-        MainForm MainForm { set; get; }
+        private MainForm MainForm { set; get; }
+
+        private System.Drawing.Color lastColor = System.Drawing.Color.FromArgb(0, 0, 0);
 
         public AutomobileChangeForm(int ID, MainForm mainForm)
         {
@@ -27,10 +23,8 @@ namespace TestSQL.Forms
         
         private void InitForm()
         {
-            MarkaBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            ModelBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            ChangeButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
 
-            KyzovBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             StateBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 
             StateBox.Items.AddRange(Data.AutomobileStates);
@@ -40,31 +34,38 @@ namespace TestSQL.Forms
             DataTable dataTable;
             dataTable = MainForm.GetDB().SelectData(Data.TABLENAME_AUTO, Data.AutomobileFields, Data.AutomobileFields, subExpression);
 
-            MarkaBox.Text = dataTable.Rows[0][1].ToString();
-            this.InitModels();
-            ModelBox.Text = dataTable.Rows[0][2].ToString();
-            CapacityBox.Text = dataTable.Rows[0][3].ToString();
             ColorBox.Text = dataTable.Rows[0][4].ToString();
+            ColorLast.Text = dataTable.Rows[0][4].ToString();
+
             NumberBox.Text = dataTable.Rows[0][5].ToString();
-            KyzovBox.Text = dataTable.Rows[0][6].ToString();
+            NumberLast.Text = dataTable.Rows[0][5].ToString();
+
             StateBox.Text = dataTable.Rows[0][7].ToString();
+            StateLast.Text = dataTable.Rows[0][7].ToString();
         }
 
-        private void InitModels()
+
+        private void ChangeButton_Click(object sender, EventArgs e)
         {
-            ModelBox.Items.Clear();
-
-            ModelBox.Enabled = true;
-
-            foreach (string newItem in Data.MarkaModel[MarkaBox.SelectedItem.ToString()])
+            string[] fields =
             {
-                ModelBox.Items.Add(newItem);
-            }
-        }
+                "color",
+                "number",
+                "state",
+            };
 
-        private void MarkaBox_SelectionChangeCommitted(object sender, EventArgs e)
-        {
-            InitModels();
+            string[] newItems =
+            {
+                ColorBox.Text,
+                NumberBox.Text,
+                StateBox.Text,
+            };
+
+            string whereExpression = "id = " + this.NoteID.ToString();
+
+            MainForm.GetDB().UpdateData(Data.TABLENAME_AUTO, fields, newItems, whereExpression);
+
+            this.Close();
         }
 
         private void AutomobileChangeForm_FormClosed(object sender, FormClosedEventArgs e)
@@ -72,25 +73,15 @@ namespace TestSQL.Forms
             this.MainForm.Enabled = true;
         }
 
-        private void ChangeButton_Click(object sender, EventArgs e)
+        private void ChangeButton_MouseEnter(object sender, EventArgs e)
         {
-            string[] newItems =
-            {
-                this.NoteID.ToString(),
-                MarkaBox.SelectedItem.ToString(),
-                ModelBox.SelectedItem.ToString(),
-                CapacityBox.Text,
-                ColorBox.Text,
-                NumberBox.Text,
-                KyzovBox.SelectedItem.ToString(),
-                StateBox.Text,
-            };
+            lastColor = ChangeButton.BackColor;
+            ChangeButton.BackColor = Data.COLOR_BUTTON_ACTIVE;
+        }
 
-            string whereExpression = "id = " + this.NoteID.ToString();
-
-            MainForm.GetDB().UpdateData(Data.TABLENAME_AUTO, Data.AutomobileFields, newItems, whereExpression);
-
-            this.Close();
+        private void ChangeButton_MouseLeave(object sender, EventArgs e)
+        {
+            ChangeButton.BackColor = lastColor;
         }
     }
 }

@@ -22,61 +22,54 @@ namespace TestSQL.Forms
         {
             AddButton.BackColor = Data.COLOR_BUTTON_UNACTIVE;
             
-            StateBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             ClientBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             AutoBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 
-            StateBox.Items.AddRange(Data.OrderStates);
 
-            try
-            {
-                MySqlDataAdapter adapter;
+            DataTable freeClientsTable; //Фамилии клиентов не на заказе
+            DataTable freeAutoTable; //Марки, модели авто не на заказе
 
-                DataTable freeClientsTable = new DataTable();
-                DataTable freeAutoTable = new DataTable();
+            //-----Внесение айди клиентов в список-----//
+            //Запрос ФИО клиентов, статус заказа которых - не выполняется
 
-                //-----Внесение айди клиентов в список-----//
-                //Запрос ФИО клиентов, статус заказа которых - не выполняется
-                string expression = @"SELECT cleints.FIO FROM cleints
-	                                  WHERE NOT EXISTS (SELECT orders.Cleints_id_client FROM orders 
-                                                        WHERE orders.state = 'Выполняется' 
-                                                          AND cleints.id = orders.Cleints_id_client)";
-                adapter = new MySqlDataAdapter(expression, mainForm.GetDB().GetConnection());
-                adapter.Fill(freeClientsTable);
+            string subExpression = @" WHERE NOT EXISTS (SELECT orders.Cleints_id_client FROM orders 
+                                                    WHERE orders.state = 'Выполняется'
+                                                        AND cleints.id = orders.Cleints_id_client)";
 
-                ClientBox.Items.Clear();
-                for (int i = 0; i< freeClientsTable.Rows.Count; i++)
-                {  
-                    ClientBox.Items.Add(freeClientsTable.Rows[i][0].ToString());
-                }
+            string[] clientFields = { "FIO" };
+            freeClientsTable = this.mainForm.GetDB().SelectData(Data.TABLENAME_CLIENTS, clientFields, clientFields, subExpression);
 
-                //запрос МОДЕЛЕЙ и МАРОК авто, статус заказа которых = не выполняется
-                expression = @"SELECT automobile.marka,automobile.model FROM automobile 
-                               WHERE NOT EXISTS (SELECT orders.automobile_id_automobile FROM orders 
-                                                 WHERE orders.state = 'Выполняется' 
-                                                   AND automobile.id = orders.automobile_id_automobile)";
-                adapter = new MySqlDataAdapter(expression, mainForm.GetDB().GetConnection());
-                adapter.Fill(freeAutoTable);
-
-                AutoBox.Items.Clear();
-                for (int i = 0; i < freeAutoTable.Rows.Count; i++)
-                {
-                    AutoBox.Items.Add(freeAutoTable.Rows[i][0].ToString() + " " + freeAutoTable.Rows[i][1].ToString());
-                }
-                //-----------------------------------------//
+            ClientBox.Items.Clear();
+            for (int i = 0; i< freeClientsTable.Rows.Count; i++)
+            {  
+                ClientBox.Items.Add(freeClientsTable.Rows[i][0].ToString());
             }
-            catch (Exception E)
+
+
+            subExpression = @" WHERE NOT EXISTS (SELECT orders.automobile_id_automobile FROM orders 
+                                                WHERE orders.state = 'Выполняется' 
+                                                AND automobile.id = orders.automobile_id_automobile)";
+            string[] autoFields = { "marka", "model" };
+            
+
+            //запрос МОДЕЛЕЙ и МАРОК авто, статус заказа которых = не выполняется
+            freeAutoTable = this.mainForm.GetDB().SelectData(Data.TABLENAME_AUTO, autoFields, autoFields, subExpression);
+
+
+            AutoBox.Items.Clear();
+            for (int i = 0; i < freeAutoTable.Rows.Count; i++)
             {
-                MessageBox.Show(E.ToString());
+                AutoBox.Items.Add(freeAutoTable.Rows[i][0].ToString() + " " + freeAutoTable.Rows[i][1].ToString());
             }
+            //-----------------------------------------//
 
 
         }
 
         public OrdersAddForm(TestSQL.MainForm mainForm)
         {
-            this.mainForm = mainForm;
             InitializeComponent();
+            this.mainForm = mainForm;
             InitForm();
         }
 
@@ -127,15 +120,15 @@ namespace TestSQL.Forms
             }
 
 
-            string[] names = { "price", "state", "automobile_id_automobile", "Cleints_id_client", "t_start", "t_end" };
+            string[] names = { "price", "state", "automobile_id_automobile", "Cleints_id_client", "t_start"};
+
             object[] fields =
             {
                 Convert.ToInt32(PriceBox.Text),
-                StateBox.SelectedItem.ToString(),
+                Data.OrderStates[0],
                 autoID,
                 clientID,
-                DateTime.Parse(DataStartBox.Text),
-                DateTime.Parse(DataFinishBox.Text)
+                DateTime.Now,
             };
 
             mainForm.GetDB().AddData(names, "orders", fields);
